@@ -1,0 +1,20 @@
+{
+  "name": "pnp",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "protoc": "bash ./v1/protoc-gen.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p4p-83/protobufs.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/p4p-83/protobufs/issues"
+  },
+  "homepage": "https://github.com/p4p-83/protobufs#readme",
+  "dependencies": {
+    "protoc-gen-ts": "^0.8.7"
+  }
+}

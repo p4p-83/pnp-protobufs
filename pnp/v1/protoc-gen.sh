@@ -2,12 +2,14 @@
 
 set -e
 
-cd src/proto/pnp/v1
+cd "$(dirname "$0")"
 
 rm -f ./*.ts
 rm -f ./*.jl
 
+npm ci
 protoc --ts_out=. pnp.proto
+
 julia -e 'using Pkg; Pkg.add("ProtoBuf"); using ProtoBuf; protojl("pnp.proto", ".", "../../")'
 
 # unroll nested folders

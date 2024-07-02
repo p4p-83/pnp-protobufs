@@ -7,6 +7,7 @@ message Message {
   oneof payload {
     Deltas deltas = 2;
     Positions positions = 3;
+    Step step = 4;
   }
 
   enum Tags {
@@ -15,6 +16,7 @@ message Message {
     TARGET_DELTAS = 2;
     MOVED_DELTAS = 3;
     TARGET_POSITIONS = 4;
+    STEP_GANTRY = 5;
   }
 
   message Deltas {
@@ -28,4 +30,17 @@ message Message {
   }
 
   message Positions { repeated Position offsets = 1; }
+
+  message Step {
+    Direction direction = 1;
+
+    enum Direction {
+      INVALID = 0;
+      ZERO = 1;
+      TOWARDS_X_MIN = 2;
+      TOWARDS_X_MAX = 3;
+      TOWARDS_Y_MIN = 4;
+      TOWARDS_Y_MAX = 5;
+    }
+  }
 }

@@ -6,15 +6,21 @@
 import * as pb_1 from "google-protobuf";
 export namespace pnp.v1 {
     export class Message extends pb_1.Message {
-        #one_of_decls: number[][] = [[2, 3]];
+        #one_of_decls: number[][] = [[2, 3, 4]];
         constructor(data?: any[] | ({
             tag?: Message.Tags;
         } & (({
             deltas?: Message.Deltas;
             positions?: never;
+            step?: never;
         } | {
             deltas?: never;
             positions?: Message.Positions;
+            step?: never;
+        } | {
+            deltas?: never;
+            positions?: never;
+            step?: Message.Step;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -27,6 +33,9 @@ export namespace pnp.v1 {
                 }
                 if ("positions" in data && data.positions != undefined) {
                     this.positions = data.positions;
+                }
+                if ("step" in data && data.step != undefined) {
+                    this.step = data.step;
                 }
             }
         }
@@ -54,20 +63,31 @@ export namespace pnp.v1 {
         get has_positions() {
             return pb_1.Message.getField(this, 3) != null;
         }
+        get step() {
+            return pb_1.Message.getWrapperField(this, Message.Step, 4) as Message.Step;
+        }
+        set step(value: Message.Step) {
+            pb_1.Message.setOneofWrapperField(this, 4, this.#one_of_decls[0], value);
+        }
+        get has_step() {
+            return pb_1.Message.getField(this, 4) != null;
+        }
         get payload() {
             const cases: {
-                [index: number]: "none" | "deltas" | "positions";
+                [index: number]: "none" | "deltas" | "positions" | "step";
             } = {
                 0: "none",
                 2: "deltas",
-                3: "positions"
+                3: "positions",
+                4: "step"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [2, 3])];
+            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4])];
         }
         static fromObject(data: {
             tag?: Message.Tags;
             deltas?: ReturnType<typeof Message.Deltas.prototype.toObject>;
             positions?: ReturnType<typeof Message.Positions.prototype.toObject>;
+            step?: ReturnType<typeof Message.Step.prototype.toObject>;
         }): Message {
             const message = new Message({});
             if (data.tag != null) {
@@ -79,6 +99,9 @@ export namespace pnp.v1 {
             if (data.positions != null) {
                 message.positions = Message.Positions.fromObject(data.positions);
             }
+            if (data.step != null) {
+                message.step = Message.Step.fromObject(data.step);
+            }
             return message;
         }
         toObject() {
@@ -86,6 +109,7 @@ export namespace pnp.v1 {
                 tag?: Message.Tags;
                 deltas?: ReturnType<typeof Message.Deltas.prototype.toObject>;
                 positions?: ReturnType<typeof Message.Positions.prototype.toObject>;
+                step?: ReturnType<typeof Message.Step.prototype.toObject>;
             } = {};
             if (this.tag != null) {
                 data.tag = this.tag;
@@ -95,6 +119,9 @@ export namespace pnp.v1 {
             }
             if (this.positions != null) {
                 data.positions = this.positions.toObject();
+            }
+            if (this.step != null) {
+                data.step = this.step.toObject();
             }
             return data;
         }
@@ -108,6 +135,8 @@ export namespace pnp.v1 {
                 writer.writeMessage(2, this.deltas, () => this.deltas.serialize(writer));
             if (this.has_positions)
                 writer.writeMessage(3, this.positions, () => this.positions.serialize(writer));
+            if (this.has_step)
+                writer.writeMessage(4, this.step, () => this.step.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -125,6 +154,9 @@ export namespace pnp.v1 {
                         break;
                     case 3:
                         reader.readMessage(message.positions, () => message.positions = Message.Positions.deserialize(reader));
+                        break;
+                    case 4:
+                        reader.readMessage(message.step, () => message.step = Message.Step.deserialize(reader));
                         break;
                     default: reader.skipField();
                 }
@@ -144,7 +176,8 @@ export namespace pnp.v1 {
             HEARTBEAT = 1,
             TARGET_DELTAS = 2,
             MOVED_DELTAS = 3,
-            TARGET_POSITIONS = 4
+            TARGET_POSITIONS = 4,
+            STEP_GANTRY = 5
         }
         export class Deltas extends pb_1.Message {
             #one_of_decls: number[][] = [];
@@ -391,6 +424,83 @@ export namespace pnp.v1 {
             }
             static deserializeBinary(bytes: Uint8Array): Positions {
                 return Positions.deserialize(bytes);
+            }
+        }
+        export class Step extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                direction?: Message.Step.Direction;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("direction" in data && data.direction != undefined) {
+                        this.direction = data.direction;
+                    }
+                }
+            }
+            get direction() {
+                return pb_1.Message.getFieldWithDefault(this, 1, Message.Step.Direction.INVALID) as Message.Step.Direction;
+            }
+            set direction(value: Message.Step.Direction) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            static fromObject(data: {
+                direction?: Message.Step.Direction;
+            }): Step {
+                const message = new Step({});
+                if (data.direction != null) {
+                    message.direction = data.direction;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    direction?: Message.Step.Direction;
+                } = {};
+                if (this.direction != null) {
+                    data.direction = this.direction;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.direction != Message.Step.Direction.INVALID)
+                    writer.writeEnum(1, this.direction);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Step {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Step();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.direction = reader.readEnum();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): Step {
+                return Step.deserialize(bytes);
+            }
+        }
+        export namespace Step {
+            export enum Direction {
+                INVALID = 0,
+                ZERO = 1,
+                TOWARDS_X_MIN = 2,
+                TOWARDS_X_MAX = 3,
+                TOWARDS_Y_MIN = 4,
+                TOWARDS_Y_MAX = 5
             }
         }
     }

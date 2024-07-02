@@ -496,11 +496,7 @@ export namespace pnp.v1 {
         export namespace Step {
             export enum Direction {
                 INVALID = 0,
-                ZERO = 1,
-                TOWARDS_X_MIN = 2,
-                TOWARDS_X_MAX = 3,
-                TOWARDS_Y_MIN = 4,
-                TOWARDS_Y_MAX = 5
+                ZERO = 1
             }
         }
     }

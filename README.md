@@ -1,5 +1,8 @@
 # `protobufs`
 
+> [!NOTE]
+> Refer to [`p4p.jamesnzl.xyz/learn`](https://p4p.jamesnzl.xyz/learn) for full details.
+
 This repository contains the [Protocol Buffer](https://protobuf.dev/overview/) definition(s) for our pick-and-place machine.
 
 ## Compiling

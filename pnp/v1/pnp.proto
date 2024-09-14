@@ -12,11 +12,18 @@ message Message {
 
   enum Tags {
     INVALID = 0;
+    /* A heartbeat message to keep the socket alive. */
     HEARTBEAT = 1;
+    /* A target count of deltas to move the gantry. */
     TARGET_DELTAS = 2;
+    /* A count of actual deltas moved by the gantry. */
     MOVED_DELTAS = 3;
+    /* An array of identified target positions to draw on the interface. */
     TARGET_POSITIONS = 4;
+    /* A direction in which to step the gantry. */
     STEP_GANTRY = 5;
+    /* An error count of deltas to calibrate out. */
+    CALIBRATE_DELTAS = 6;
   }
 
   message Deltas {

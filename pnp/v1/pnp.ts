@@ -177,7 +177,8 @@ export namespace pnp.v1 {
             TARGET_DELTAS = 2,
             MOVED_DELTAS = 3,
             TARGET_POSITIONS = 4,
-            STEP_GANTRY = 5
+            STEP_GANTRY = 5,
+            CALIBRATE_DELTAS = 6
         }
         export class Deltas extends pb_1.Message {
             #one_of_decls: number[][] = [];

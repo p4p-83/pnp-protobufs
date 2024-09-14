@@ -6,6 +6,11 @@ This repository contains the [Protocol Buffer](https://protobuf.dev/overview/) d
 
 Use the provided `protoc-gen.sh` script to recompile the target language bindings.
 
+```sh
+cd pnp/v1
+npm run protoc # this runs protoc-gen.sh
+```
+
 ## Usage
 
 Add this repository as a submodule.

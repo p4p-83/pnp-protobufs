@@ -8,6 +8,7 @@ message Message {
     Deltas deltas = 2;
     Positions positions = 3;
     Step step = 4;
+    Calibration calibration = 4;
   }
 
   enum Tags {
@@ -45,5 +46,10 @@ message Message {
       INVALID = 0;
       ZERO = 1;
     }
+  }
+  
+  message Calibration {
+    Deltas target = 1;
+    Deltas real = 2;
   }
 }

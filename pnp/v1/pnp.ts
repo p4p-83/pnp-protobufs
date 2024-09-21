@@ -6,7 +6,7 @@
 import * as pb_1 from "google-protobuf";
 export namespace pnp.v1 {
     export class Message extends pb_1.Message {
-        #one_of_decls: number[][] = [[2, 3, 4, 5]];
+        #one_of_decls: number[][] = [[2, 3, 4, 5, 6]];
         constructor(data?: any[] | ({
             tag?: Message.Tags;
         } & (({
@@ -14,21 +14,31 @@ export namespace pnp.v1 {
             positions?: never;
             step?: never;
             calibration?: never;
+            headOperation?: never;
         } | {
             deltas?: never;
             positions?: Message.Positions;
             step?: never;
             calibration?: never;
+            headOperation?: never;
         } | {
             deltas?: never;
             positions?: never;
             step?: Message.Step;
             calibration?: never;
+            headOperation?: never;
         } | {
             deltas?: never;
             positions?: never;
             step?: never;
             calibration?: Message.Calibration;
+            headOperation?: never;
+        } | {
+            deltas?: never;
+            positions?: never;
+            step?: never;
+            calibration?: never;
+            headOperation?: Message.HeadOperation;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -47,6 +57,9 @@ export namespace pnp.v1 {
                 }
                 if ("calibration" in data && data.calibration != undefined) {
                     this.calibration = data.calibration;
+                }
+                if ("headOperation" in data && data.headOperation != undefined) {
+                    this.headOperation = data.headOperation;
                 }
             }
         }
@@ -92,17 +105,27 @@ export namespace pnp.v1 {
         get has_calibration() {
             return pb_1.Message.getField(this, 5) != null;
         }
+        get headOperation() {
+            return pb_1.Message.getWrapperField(this, Message.HeadOperation, 6) as Message.HeadOperation;
+        }
+        set headOperation(value: Message.HeadOperation) {
+            pb_1.Message.setOneofWrapperField(this, 6, this.#one_of_decls[0], value);
+        }
+        get has_headOperation() {
+            return pb_1.Message.getField(this, 6) != null;
+        }
         get payload() {
             const cases: {
-                [index: number]: "none" | "deltas" | "positions" | "step" | "calibration";
+                [index: number]: "none" | "deltas" | "positions" | "step" | "calibration" | "headOperation";
             } = {
                 0: "none",
                 2: "deltas",
                 3: "positions",
                 4: "step",
-                5: "calibration"
+                5: "calibration",
+                6: "headOperation"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4, 5])];
+            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4, 5, 6])];
         }
         static fromObject(data: {
             tag?: Message.Tags;
@@ -110,6 +133,7 @@ export namespace pnp.v1 {
             positions?: ReturnType<typeof Message.Positions.prototype.toObject>;
             step?: ReturnType<typeof Message.Step.prototype.toObject>;
             calibration?: ReturnType<typeof Message.Calibration.prototype.toObject>;
+            headOperation?: ReturnType<typeof Message.HeadOperation.prototype.toObject>;
         }): Message {
             const message = new Message({});
             if (data.tag != null) {
@@ -127,6 +151,9 @@ export namespace pnp.v1 {
             if (data.calibration != null) {
                 message.calibration = Message.Calibration.fromObject(data.calibration);
             }
+            if (data.headOperation != null) {
+                message.headOperation = Message.HeadOperation.fromObject(data.headOperation);
+            }
             return message;
         }
         toObject() {
@@ -136,6 +163,7 @@ export namespace pnp.v1 {
                 positions?: ReturnType<typeof Message.Positions.prototype.toObject>;
                 step?: ReturnType<typeof Message.Step.prototype.toObject>;
                 calibration?: ReturnType<typeof Message.Calibration.prototype.toObject>;
+                headOperation?: ReturnType<typeof Message.HeadOperation.prototype.toObject>;
             } = {};
             if (this.tag != null) {
                 data.tag = this.tag;
@@ -151,6 +179,9 @@ export namespace pnp.v1 {
             }
             if (this.calibration != null) {
                 data.calibration = this.calibration.toObject();
+            }
+            if (this.headOperation != null) {
+                data.headOperation = this.headOperation.toObject();
             }
             return data;
         }
@@ -168,6 +199,8 @@ export namespace pnp.v1 {
                 writer.writeMessage(4, this.step, () => this.step.serialize(writer));
             if (this.has_calibration)
                 writer.writeMessage(5, this.calibration, () => this.calibration.serialize(writer));
+            if (this.has_headOperation)
+                writer.writeMessage(6, this.headOperation, () => this.headOperation.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -192,6 +225,9 @@ export namespace pnp.v1 {
                     case 5:
                         reader.readMessage(message.calibration, () => message.calibration = Message.Calibration.deserialize(reader));
                         break;
+                    case 6:
+                        reader.readMessage(message.headOperation, () => message.headOperation = Message.HeadOperation.deserialize(reader));
+                        break;
                     default: reader.skipField();
                 }
             }
@@ -212,7 +248,8 @@ export namespace pnp.v1 {
             MOVED_DELTAS = 3,
             TARGET_POSITIONS = 4,
             STEP_GANTRY = 5,
-            CALIBRATE_DELTAS = 6
+            CALIBRATE_DELTAS = 6,
+            OPERATE_HEAD = 7
         }
         export class Deltas extends pb_1.Message {
             #one_of_decls: number[][] = [];
@@ -628,6 +665,81 @@ export namespace pnp.v1 {
             }
             static deserializeBinary(bytes: Uint8Array): Calibration {
                 return Calibration.deserialize(bytes);
+            }
+        }
+        export class HeadOperation extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                operation?: Message.HeadOperation.Operation;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("operation" in data && data.operation != undefined) {
+                        this.operation = data.operation;
+                    }
+                }
+            }
+            get operation() {
+                return pb_1.Message.getFieldWithDefault(this, 1, Message.HeadOperation.Operation.PICK) as Message.HeadOperation.Operation;
+            }
+            set operation(value: Message.HeadOperation.Operation) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            static fromObject(data: {
+                operation?: Message.HeadOperation.Operation;
+            }): HeadOperation {
+                const message = new HeadOperation({});
+                if (data.operation != null) {
+                    message.operation = data.operation;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    operation?: Message.HeadOperation.Operation;
+                } = {};
+                if (this.operation != null) {
+                    data.operation = this.operation;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.operation != Message.HeadOperation.Operation.PICK)
+                    writer.writeEnum(1, this.operation);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): HeadOperation {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new HeadOperation();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.operation = reader.readEnum();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): HeadOperation {
+                return HeadOperation.deserialize(bytes);
+            }
+        }
+        export namespace HeadOperation {
+            export enum Operation {
+                PICK = 0,
+                PLACE = 1,
+                ENGAGE_VACUUM = 2,
+                DISENGAGE_VACUUM = 3
             }
         }
     }

@@ -9,7 +9,10 @@ message Message {
     Positions positions = 3;
     Step step = 4;
     Calibration calibration = 5;
+    HeadOperation headOperation = 6;
   }
+
+  // TODO: machine state
 
   enum Tags {
     INVALID = 0;
@@ -25,6 +28,8 @@ message Message {
     STEP_GANTRY = 5;
     /* An error count of deltas to calibrate out. */
     CALIBRATE_DELTAS = 6;
+    /* An operation to perform with the head mechanism. */
+    OPERATE_HEAD = 7;
   }
 
   message Deltas {
@@ -47,9 +52,20 @@ message Message {
       ZERO = 1;
     }
   }
-  
+
   message Calibration {
     Deltas target = 1;
     Deltas real = 2;
+  }
+
+  message HeadOperation {
+    Operation operation = 1;
+
+    enum Operation {
+      PICK = 0;
+      PLACE = 1;
+      ENGAGE_VACUUM = 2;
+      DISENGAGE_VACUUM = 3;
+    }
   }
 }

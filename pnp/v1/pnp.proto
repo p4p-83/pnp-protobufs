@@ -10,9 +10,8 @@ message Message {
     Step step = 4;
     Calibration calibration = 5;
     HeadOperation headOperation = 6;
+    MachineState machineState = 7;
   }
-
-  // TODO: machine state
 
   enum Tags {
     INVALID = 0;
@@ -30,6 +29,8 @@ message Message {
     CALIBRATE_DELTAS = 6;
     /* An operation to perform with the head mechanism. */
     OPERATE_HEAD = 7;
+    /* A message to communicate the machine's state to the frontend. */
+    MACHINE_STATE = 8;
   }
 
   message Deltas {
@@ -67,5 +68,11 @@ message Message {
       ENGAGE_VACUUM = 2;
       DISENGAGE_VACUUM = 3;
     }
+  }
+
+  message MachineState {
+    Position gantryPosition = 1;
+    bool isHeadDown = 2;
+    bool isVacuumEngaged = 3;
   }
 }

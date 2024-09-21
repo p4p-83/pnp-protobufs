@@ -6,7 +6,7 @@
 import * as pb_1 from "google-protobuf";
 export namespace pnp.v1 {
     export class Message extends pb_1.Message {
-        #one_of_decls: number[][] = [[2, 3, 4, 5, 6]];
+        #one_of_decls: number[][] = [[2, 3, 4, 5, 6, 7]];
         constructor(data?: any[] | ({
             tag?: Message.Tags;
         } & (({
@@ -15,30 +15,42 @@ export namespace pnp.v1 {
             step?: never;
             calibration?: never;
             headOperation?: never;
+            machineState?: never;
         } | {
             deltas?: never;
             positions?: Message.Positions;
             step?: never;
             calibration?: never;
             headOperation?: never;
+            machineState?: never;
         } | {
             deltas?: never;
             positions?: never;
             step?: Message.Step;
             calibration?: never;
             headOperation?: never;
+            machineState?: never;
         } | {
             deltas?: never;
             positions?: never;
             step?: never;
             calibration?: Message.Calibration;
             headOperation?: never;
+            machineState?: never;
         } | {
             deltas?: never;
             positions?: never;
             step?: never;
             calibration?: never;
             headOperation?: Message.HeadOperation;
+            machineState?: never;
+        } | {
+            deltas?: never;
+            positions?: never;
+            step?: never;
+            calibration?: never;
+            headOperation?: never;
+            machineState?: Message.MachineState;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -60,6 +72,9 @@ export namespace pnp.v1 {
                 }
                 if ("headOperation" in data && data.headOperation != undefined) {
                     this.headOperation = data.headOperation;
+                }
+                if ("machineState" in data && data.machineState != undefined) {
+                    this.machineState = data.machineState;
                 }
             }
         }
@@ -114,18 +129,28 @@ export namespace pnp.v1 {
         get has_headOperation() {
             return pb_1.Message.getField(this, 6) != null;
         }
+        get machineState() {
+            return pb_1.Message.getWrapperField(this, Message.MachineState, 7) as Message.MachineState;
+        }
+        set machineState(value: Message.MachineState) {
+            pb_1.Message.setOneofWrapperField(this, 7, this.#one_of_decls[0], value);
+        }
+        get has_machineState() {
+            return pb_1.Message.getField(this, 7) != null;
+        }
         get payload() {
             const cases: {
-                [index: number]: "none" | "deltas" | "positions" | "step" | "calibration" | "headOperation";
+                [index: number]: "none" | "deltas" | "positions" | "step" | "calibration" | "headOperation" | "machineState";
             } = {
                 0: "none",
                 2: "deltas",
                 3: "positions",
                 4: "step",
                 5: "calibration",
-                6: "headOperation"
+                6: "headOperation",
+                7: "machineState"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4, 5, 6])];
+            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4, 5, 6, 7])];
         }
         static fromObject(data: {
             tag?: Message.Tags;
@@ -134,6 +159,7 @@ export namespace pnp.v1 {
             step?: ReturnType<typeof Message.Step.prototype.toObject>;
             calibration?: ReturnType<typeof Message.Calibration.prototype.toObject>;
             headOperation?: ReturnType<typeof Message.HeadOperation.prototype.toObject>;
+            machineState?: ReturnType<typeof Message.MachineState.prototype.toObject>;
         }): Message {
             const message = new Message({});
             if (data.tag != null) {
@@ -154,6 +180,9 @@ export namespace pnp.v1 {
             if (data.headOperation != null) {
                 message.headOperation = Message.HeadOperation.fromObject(data.headOperation);
             }
+            if (data.machineState != null) {
+                message.machineState = Message.MachineState.fromObject(data.machineState);
+            }
             return message;
         }
         toObject() {
@@ -164,6 +193,7 @@ export namespace pnp.v1 {
                 step?: ReturnType<typeof Message.Step.prototype.toObject>;
                 calibration?: ReturnType<typeof Message.Calibration.prototype.toObject>;
                 headOperation?: ReturnType<typeof Message.HeadOperation.prototype.toObject>;
+                machineState?: ReturnType<typeof Message.MachineState.prototype.toObject>;
             } = {};
             if (this.tag != null) {
                 data.tag = this.tag;
@@ -183,6 +213,9 @@ export namespace pnp.v1 {
             if (this.headOperation != null) {
                 data.headOperation = this.headOperation.toObject();
             }
+            if (this.machineState != null) {
+                data.machineState = this.machineState.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -201,6 +234,8 @@ export namespace pnp.v1 {
                 writer.writeMessage(5, this.calibration, () => this.calibration.serialize(writer));
             if (this.has_headOperation)
                 writer.writeMessage(6, this.headOperation, () => this.headOperation.serialize(writer));
+            if (this.has_machineState)
+                writer.writeMessage(7, this.machineState, () => this.machineState.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -228,6 +263,9 @@ export namespace pnp.v1 {
                     case 6:
                         reader.readMessage(message.headOperation, () => message.headOperation = Message.HeadOperation.deserialize(reader));
                         break;
+                    case 7:
+                        reader.readMessage(message.machineState, () => message.machineState = Message.MachineState.deserialize(reader));
+                        break;
                     default: reader.skipField();
                 }
             }
@@ -249,7 +287,8 @@ export namespace pnp.v1 {
             TARGET_POSITIONS = 4,
             STEP_GANTRY = 5,
             CALIBRATE_DELTAS = 6,
-            OPERATE_HEAD = 7
+            OPERATE_HEAD = 7,
+            MACHINE_STATE = 8
         }
         export class Deltas extends pb_1.Message {
             #one_of_decls: number[][] = [];
@@ -740,6 +779,122 @@ export namespace pnp.v1 {
                 PLACE = 1,
                 ENGAGE_VACUUM = 2,
                 DISENGAGE_VACUUM = 3
+            }
+        }
+        export class MachineState extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                gantryPosition?: Message.Position;
+                isHeadDown?: boolean;
+                isVacuumEngaged?: boolean;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("gantryPosition" in data && data.gantryPosition != undefined) {
+                        this.gantryPosition = data.gantryPosition;
+                    }
+                    if ("isHeadDown" in data && data.isHeadDown != undefined) {
+                        this.isHeadDown = data.isHeadDown;
+                    }
+                    if ("isVacuumEngaged" in data && data.isVacuumEngaged != undefined) {
+                        this.isVacuumEngaged = data.isVacuumEngaged;
+                    }
+                }
+            }
+            get gantryPosition() {
+                return pb_1.Message.getWrapperField(this, Message.Position, 1) as Message.Position;
+            }
+            set gantryPosition(value: Message.Position) {
+                pb_1.Message.setWrapperField(this, 1, value);
+            }
+            get has_gantryPosition() {
+                return pb_1.Message.getField(this, 1) != null;
+            }
+            get isHeadDown() {
+                return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+            }
+            set isHeadDown(value: boolean) {
+                pb_1.Message.setField(this, 2, value);
+            }
+            get isVacuumEngaged() {
+                return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean;
+            }
+            set isVacuumEngaged(value: boolean) {
+                pb_1.Message.setField(this, 3, value);
+            }
+            static fromObject(data: {
+                gantryPosition?: ReturnType<typeof Message.Position.prototype.toObject>;
+                isHeadDown?: boolean;
+                isVacuumEngaged?: boolean;
+            }): MachineState {
+                const message = new MachineState({});
+                if (data.gantryPosition != null) {
+                    message.gantryPosition = Message.Position.fromObject(data.gantryPosition);
+                }
+                if (data.isHeadDown != null) {
+                    message.isHeadDown = data.isHeadDown;
+                }
+                if (data.isVacuumEngaged != null) {
+                    message.isVacuumEngaged = data.isVacuumEngaged;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    gantryPosition?: ReturnType<typeof Message.Position.prototype.toObject>;
+                    isHeadDown?: boolean;
+                    isVacuumEngaged?: boolean;
+                } = {};
+                if (this.gantryPosition != null) {
+                    data.gantryPosition = this.gantryPosition.toObject();
+                }
+                if (this.isHeadDown != null) {
+                    data.isHeadDown = this.isHeadDown;
+                }
+                if (this.isVacuumEngaged != null) {
+                    data.isVacuumEngaged = this.isVacuumEngaged;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.has_gantryPosition)
+                    writer.writeMessage(1, this.gantryPosition, () => this.gantryPosition.serialize(writer));
+                if (this.isHeadDown != false)
+                    writer.writeBool(2, this.isHeadDown);
+                if (this.isVacuumEngaged != false)
+                    writer.writeBool(3, this.isVacuumEngaged);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MachineState {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new MachineState();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            reader.readMessage(message.gantryPosition, () => message.gantryPosition = Message.Position.deserialize(reader));
+                            break;
+                        case 2:
+                            message.isHeadDown = reader.readBool();
+                            break;
+                        case 3:
+                            message.isVacuumEngaged = reader.readBool();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): MachineState {
+                return MachineState.deserialize(bytes);
             }
         }
     }

@@ -778,7 +778,9 @@ export namespace pnp.v1 {
                 PICK = 0,
                 PLACE = 1,
                 ENGAGE_VACUUM = 2,
-                DISENGAGE_VACUUM = 3
+                DISENGAGE_VACUUM = 3,
+                LOWER_HEAD = 4,
+                RAISE_HEAD = 5
             }
         }
         export class MachineState extends pb_1.Message {

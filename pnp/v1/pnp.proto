@@ -65,8 +65,11 @@ message Message {
     enum Operation {
       PICK = 0;
       PLACE = 1;
+      // The following are provided for debugging/manual overrides only.
       ENGAGE_VACUUM = 2;
       DISENGAGE_VACUUM = 3;
+      LOWER_HEAD = 4;
+      RAISE_HEAD = 5;
     }
   }
 

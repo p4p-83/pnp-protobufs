@@ -789,6 +789,7 @@ export namespace pnp.v1 {
                 gantryPosition?: Message.Position;
                 isHeadDown?: boolean;
                 isVacuumEngaged?: boolean;
+                isComponentPicked?: boolean;
             }) {
                 super();
                 pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -801,6 +802,9 @@ export namespace pnp.v1 {
                     }
                     if ("isVacuumEngaged" in data && data.isVacuumEngaged != undefined) {
                         this.isVacuumEngaged = data.isVacuumEngaged;
+                    }
+                    if ("isComponentPicked" in data && data.isComponentPicked != undefined) {
+                        this.isComponentPicked = data.isComponentPicked;
                     }
                 }
             }
@@ -825,10 +829,17 @@ export namespace pnp.v1 {
             set isVacuumEngaged(value: boolean) {
                 pb_1.Message.setField(this, 3, value);
             }
+            get isComponentPicked() {
+                return pb_1.Message.getFieldWithDefault(this, 4, false) as boolean;
+            }
+            set isComponentPicked(value: boolean) {
+                pb_1.Message.setField(this, 4, value);
+            }
             static fromObject(data: {
                 gantryPosition?: ReturnType<typeof Message.Position.prototype.toObject>;
                 isHeadDown?: boolean;
                 isVacuumEngaged?: boolean;
+                isComponentPicked?: boolean;
             }): MachineState {
                 const message = new MachineState({});
                 if (data.gantryPosition != null) {
@@ -840,6 +851,9 @@ export namespace pnp.v1 {
                 if (data.isVacuumEngaged != null) {
                     message.isVacuumEngaged = data.isVacuumEngaged;
                 }
+                if (data.isComponentPicked != null) {
+                    message.isComponentPicked = data.isComponentPicked;
+                }
                 return message;
             }
             toObject() {
@@ -847,6 +861,7 @@ export namespace pnp.v1 {
                     gantryPosition?: ReturnType<typeof Message.Position.prototype.toObject>;
                     isHeadDown?: boolean;
                     isVacuumEngaged?: boolean;
+                    isComponentPicked?: boolean;
                 } = {};
                 if (this.gantryPosition != null) {
                     data.gantryPosition = this.gantryPosition.toObject();
@@ -856,6 +871,9 @@ export namespace pnp.v1 {
                 }
                 if (this.isVacuumEngaged != null) {
                     data.isVacuumEngaged = this.isVacuumEngaged;
+                }
+                if (this.isComponentPicked != null) {
+                    data.isComponentPicked = this.isComponentPicked;
                 }
                 return data;
             }
@@ -869,6 +887,8 @@ export namespace pnp.v1 {
                     writer.writeBool(2, this.isHeadDown);
                 if (this.isVacuumEngaged != false)
                     writer.writeBool(3, this.isVacuumEngaged);
+                if (this.isComponentPicked != false)
+                    writer.writeBool(4, this.isComponentPicked);
                 if (!w)
                     return writer.getResultBuffer();
             }
@@ -886,6 +906,9 @@ export namespace pnp.v1 {
                             break;
                         case 3:
                             message.isVacuumEngaged = reader.readBool();
+                            break;
+                        case 4:
+                            message.isComponentPicked = reader.readBool();
                             break;
                         default: reader.skipField();
                     }

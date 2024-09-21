@@ -77,5 +77,6 @@ message Message {
     Position gantryPosition = 1;
     bool isHeadDown = 2;
     bool isVacuumEngaged = 3;
+    bool isComponentPicked = 4;
   }
 }

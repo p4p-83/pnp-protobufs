@@ -11,6 +11,7 @@ message Message {
     Calibration calibration = 5;
     HeadOperation headOperation = 6;
     MachineState machineState = 7;
+    NozzleRotation nozzleRotation = 8;
   }
 
   enum Tags {
@@ -31,6 +32,8 @@ message Message {
     OPERATE_HEAD = 7;
     /* A message to communicate the machine's state to the frontend. */
     MACHINE_STATE = 8;
+    /* A degrees amount to rotate the nozzle. */
+    ROTATE_NOZZLE = 9;
   }
 
   message Deltas {
@@ -72,6 +75,8 @@ message Message {
       RAISE_HEAD = 5;
     }
   }
+
+  message NozzleRotation { sint32 degrees = 1; }
 
   message MachineState {
     Position gantryPosition = 1;

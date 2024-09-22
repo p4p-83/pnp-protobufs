@@ -6,7 +6,7 @@
 import * as pb_1 from "google-protobuf";
 export namespace pnp.v1 {
     export class Message extends pb_1.Message {
-        #one_of_decls: number[][] = [[2, 3, 4, 5, 6, 7]];
+        #one_of_decls: number[][] = [[2, 3, 4, 5, 6, 7, 8]];
         constructor(data?: any[] | ({
             tag?: Message.Tags;
         } & (({
@@ -16,6 +16,7 @@ export namespace pnp.v1 {
             calibration?: never;
             headOperation?: never;
             machineState?: never;
+            nozzleRotation?: never;
         } | {
             deltas?: never;
             positions?: Message.Positions;
@@ -23,6 +24,7 @@ export namespace pnp.v1 {
             calibration?: never;
             headOperation?: never;
             machineState?: never;
+            nozzleRotation?: never;
         } | {
             deltas?: never;
             positions?: never;
@@ -30,6 +32,7 @@ export namespace pnp.v1 {
             calibration?: never;
             headOperation?: never;
             machineState?: never;
+            nozzleRotation?: never;
         } | {
             deltas?: never;
             positions?: never;
@@ -37,6 +40,7 @@ export namespace pnp.v1 {
             calibration?: Message.Calibration;
             headOperation?: never;
             machineState?: never;
+            nozzleRotation?: never;
         } | {
             deltas?: never;
             positions?: never;
@@ -44,6 +48,7 @@ export namespace pnp.v1 {
             calibration?: never;
             headOperation?: Message.HeadOperation;
             machineState?: never;
+            nozzleRotation?: never;
         } | {
             deltas?: never;
             positions?: never;
@@ -51,6 +56,15 @@ export namespace pnp.v1 {
             calibration?: never;
             headOperation?: never;
             machineState?: Message.MachineState;
+            nozzleRotation?: never;
+        } | {
+            deltas?: never;
+            positions?: never;
+            step?: never;
+            calibration?: never;
+            headOperation?: never;
+            machineState?: never;
+            nozzleRotation?: Message.NozzleRotation;
         })))) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -75,6 +89,9 @@ export namespace pnp.v1 {
                 }
                 if ("machineState" in data && data.machineState != undefined) {
                     this.machineState = data.machineState;
+                }
+                if ("nozzleRotation" in data && data.nozzleRotation != undefined) {
+                    this.nozzleRotation = data.nozzleRotation;
                 }
             }
         }
@@ -138,9 +155,18 @@ export namespace pnp.v1 {
         get has_machineState() {
             return pb_1.Message.getField(this, 7) != null;
         }
+        get nozzleRotation() {
+            return pb_1.Message.getWrapperField(this, Message.NozzleRotation, 8) as Message.NozzleRotation;
+        }
+        set nozzleRotation(value: Message.NozzleRotation) {
+            pb_1.Message.setOneofWrapperField(this, 8, this.#one_of_decls[0], value);
+        }
+        get has_nozzleRotation() {
+            return pb_1.Message.getField(this, 8) != null;
+        }
         get payload() {
             const cases: {
-                [index: number]: "none" | "deltas" | "positions" | "step" | "calibration" | "headOperation" | "machineState";
+                [index: number]: "none" | "deltas" | "positions" | "step" | "calibration" | "headOperation" | "machineState" | "nozzleRotation";
             } = {
                 0: "none",
                 2: "deltas",
@@ -148,9 +174,10 @@ export namespace pnp.v1 {
                 4: "step",
                 5: "calibration",
                 6: "headOperation",
-                7: "machineState"
+                7: "machineState",
+                8: "nozzleRotation"
             };
-            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4, 5, 6, 7])];
+            return cases[pb_1.Message.computeOneofCase(this, [2, 3, 4, 5, 6, 7, 8])];
         }
         static fromObject(data: {
             tag?: Message.Tags;
@@ -160,6 +187,7 @@ export namespace pnp.v1 {
             calibration?: ReturnType<typeof Message.Calibration.prototype.toObject>;
             headOperation?: ReturnType<typeof Message.HeadOperation.prototype.toObject>;
             machineState?: ReturnType<typeof Message.MachineState.prototype.toObject>;
+            nozzleRotation?: ReturnType<typeof Message.NozzleRotation.prototype.toObject>;
         }): Message {
             const message = new Message({});
             if (data.tag != null) {
@@ -183,6 +211,9 @@ export namespace pnp.v1 {
             if (data.machineState != null) {
                 message.machineState = Message.MachineState.fromObject(data.machineState);
             }
+            if (data.nozzleRotation != null) {
+                message.nozzleRotation = Message.NozzleRotation.fromObject(data.nozzleRotation);
+            }
             return message;
         }
         toObject() {
@@ -194,6 +225,7 @@ export namespace pnp.v1 {
                 calibration?: ReturnType<typeof Message.Calibration.prototype.toObject>;
                 headOperation?: ReturnType<typeof Message.HeadOperation.prototype.toObject>;
                 machineState?: ReturnType<typeof Message.MachineState.prototype.toObject>;
+                nozzleRotation?: ReturnType<typeof Message.NozzleRotation.prototype.toObject>;
             } = {};
             if (this.tag != null) {
                 data.tag = this.tag;
@@ -216,6 +248,9 @@ export namespace pnp.v1 {
             if (this.machineState != null) {
                 data.machineState = this.machineState.toObject();
             }
+            if (this.nozzleRotation != null) {
+                data.nozzleRotation = this.nozzleRotation.toObject();
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -236,6 +271,8 @@ export namespace pnp.v1 {
                 writer.writeMessage(6, this.headOperation, () => this.headOperation.serialize(writer));
             if (this.has_machineState)
                 writer.writeMessage(7, this.machineState, () => this.machineState.serialize(writer));
+            if (this.has_nozzleRotation)
+                writer.writeMessage(8, this.nozzleRotation, () => this.nozzleRotation.serialize(writer));
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -266,6 +303,9 @@ export namespace pnp.v1 {
                     case 7:
                         reader.readMessage(message.machineState, () => message.machineState = Message.MachineState.deserialize(reader));
                         break;
+                    case 8:
+                        reader.readMessage(message.nozzleRotation, () => message.nozzleRotation = Message.NozzleRotation.deserialize(reader));
+                        break;
                     default: reader.skipField();
                 }
             }
@@ -288,7 +328,8 @@ export namespace pnp.v1 {
             STEP_GANTRY = 5,
             CALIBRATE_DELTAS = 6,
             OPERATE_HEAD = 7,
-            MACHINE_STATE = 8
+            MACHINE_STATE = 8,
+            ROTATE_NOZZLE = 9
         }
         export class Deltas extends pb_1.Message {
             #one_of_decls: number[][] = [];
@@ -781,6 +822,73 @@ export namespace pnp.v1 {
                 DISENGAGE_VACUUM = 3,
                 LOWER_HEAD = 4,
                 RAISE_HEAD = 5
+            }
+        }
+        export class NozzleRotation extends pb_1.Message {
+            #one_of_decls: number[][] = [];
+            constructor(data?: any[] | {
+                degrees?: number;
+            }) {
+                super();
+                pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+                if (!Array.isArray(data) && typeof data == "object") {
+                    if ("degrees" in data && data.degrees != undefined) {
+                        this.degrees = data.degrees;
+                    }
+                }
+            }
+            get degrees() {
+                return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+            }
+            set degrees(value: number) {
+                pb_1.Message.setField(this, 1, value);
+            }
+            static fromObject(data: {
+                degrees?: number;
+            }): NozzleRotation {
+                const message = new NozzleRotation({});
+                if (data.degrees != null) {
+                    message.degrees = data.degrees;
+                }
+                return message;
+            }
+            toObject() {
+                const data: {
+                    degrees?: number;
+                } = {};
+                if (this.degrees != null) {
+                    data.degrees = this.degrees;
+                }
+                return data;
+            }
+            serialize(): Uint8Array;
+            serialize(w: pb_1.BinaryWriter): void;
+            serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+                const writer = w || new pb_1.BinaryWriter();
+                if (this.degrees != 0)
+                    writer.writeSint32(1, this.degrees);
+                if (!w)
+                    return writer.getResultBuffer();
+            }
+            static deserialize(bytes: Uint8Array | pb_1.BinaryReader): NozzleRotation {
+                const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new NozzleRotation();
+                while (reader.nextField()) {
+                    if (reader.isEndGroup())
+                        break;
+                    switch (reader.getFieldNumber()) {
+                        case 1:
+                            message.degrees = reader.readSint32();
+                            break;
+                        default: reader.skipField();
+                    }
+                }
+                return message;
+            }
+            serializeBinary(): Uint8Array {
+                return this.serialize();
+            }
+            static deserializeBinary(bytes: Uint8Array): NozzleRotation {
+                return NozzleRotation.deserialize(bytes);
             }
         }
         export class MachineState extends pb_1.Message {
